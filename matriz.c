@@ -105,20 +105,20 @@ void print_matrix(slist* matrix)
 }
 
 /*Funcion que suma dos matrices(de igual longitud)*/
-slist* suma_matrix(slist* matrix, slist* matrix2, int n, int m)
+slist* suma_matrix(slist* matrix, slist* matrix2)
 {
     register int X, Y = 0;
     slist* sptr = matrix;
     slist* sptr2 = matrix2;
     slist* matrix3 = NULL;
-    matrix3 = new_matrix(matrix3,n,m);
+    matrix3 = new_matrix(matrix3,matrix->tam_x,matrix->tam_y);
     slist* sptr3 = matrix3;
-    while (Y < n){
+    while (Y < matrix->tam_y){
         node* ptr = sptr->row;
         node* ptr2 = sptr2->row;
         node* ptr3 = sptr3->row;
         X = 0;
-        while (X < m && ptr != NULL || ptr2 != NULL){
+        while (X < matrix->tam_x && ptr != NULL || ptr2 != NULL){
             /*Comprobar si alguna fila es nula, si es nula poner el valor de la que no sea nula*/
             if(!ptr){
                 while (X < ptr->posicion_x){
@@ -158,7 +158,6 @@ slist* suma_matrix(slist* matrix, slist* matrix2, int n, int m)
                 }
             }
         }
-        printf("\n");
         sptr = sptr->next;
         sptr2 = sptr2->next;
         sptr3 = sptr3->next;
