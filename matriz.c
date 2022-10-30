@@ -103,3 +103,66 @@ void print_matrix(slist* matrix)
         Y++;
     }
 }
+
+/*Funcion que suma dos matrices(de igual longitud)*/
+slist* suma_matrix(slist* matrix, slist* matrix2, int n, int m)
+{
+    register int X, Y = 0;
+    slist* sptr = matrix;
+    slist* sptr2 = matrix2;
+    slist* matrix3 = NULL;
+    matrix3 = new_matrix(matrix3,n,m);
+    slist* sptr3 = matrix3;
+    while (Y < n){
+        node* ptr = sptr->row;
+        node* ptr2 = sptr2->row;
+        node* ptr3 = sptr3->row;
+        X = 0;
+        while (X < m && ptr != NULL || ptr2 != NULL){
+            /*Comprobar si alguna fila es nula, si es nula poner el valor de la que no sea nula*/
+            if(!ptr){
+                while (X < ptr->posicion_x){
+                    ptr3->value=ptr2->value;
+                    ptr2 = ptr2->next;
+                    ptr3 = ptr3->next;
+                    X++;
+                }                
+            }else if(!ptr2){
+                while (X < ptr2->posicion_x){
+                    ptr3->value=ptr->value;
+                    ptr = ptr->next;
+                    ptr3 = ptr3->next;
+                    X++;
+                }
+            }
+            /* Si no es nula, hacer las sumas de ambas matrices*/
+            if(ptr->posicion_x==ptr2->posicion_x){
+                ptr3->value=(ptr->value)+(ptr2->value);
+                ptr = ptr->next;
+                ptr2 = ptr2->next;
+                ptr3 = ptr3->next;
+                X++;
+            }else{
+                /*Si la posicion del primero es menor al segundo significa que el primero se sumara con 0*/
+                if(ptr->posicion_x<ptr2->posicion_x){
+                    ptr3->value=ptr->value;
+                    ptr = ptr->next;
+                    ptr3 = ptr3->next;
+                    X++;
+                /*Si la posicion del segundo es menor al primero significa que el segundo se sumara con 0*/
+                }else{
+                    ptr3->value=ptr2->value;
+                    ptr2 = ptr2->next;
+                    ptr3 = ptr3->next;
+                    X++;
+                }
+            }
+        }
+        printf("\n");
+        sptr = sptr->next;
+        sptr2 = sptr2->next;
+        sptr3 = sptr3->next;
+        Y++;
+    }
+    return matrix3;
+}
