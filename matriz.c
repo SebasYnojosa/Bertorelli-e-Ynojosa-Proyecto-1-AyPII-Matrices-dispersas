@@ -103,9 +103,3 @@ void print_matrix(slist* matrix)
         Y++;
     }
 }
-
-/* Funcion que nos busque un elemento de la matriz en unas coordenadas dadas, devolviendo -1 si el elemento no existe */
-int search_element(int n, int m, slist* matrix)
-{
-
-}
