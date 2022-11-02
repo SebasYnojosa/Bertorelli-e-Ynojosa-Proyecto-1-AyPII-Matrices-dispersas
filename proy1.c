@@ -149,7 +149,7 @@ int main(void)
             print_matrix(matriz1);
         }
     } while (elec < 1 || elec > 2 || elec > 3 || elec > 4 || elec > 5 || elec > 6 || elec > 7);
-}
+
     /* Fin menu */    
     
     
