@@ -57,7 +57,4 @@ void set_value(int i, int j, int x, slist* matrix);
 /* Funcion para transponer un matriz */
 void transpose(slist* matrix, slist* matrix_trans);
 
-/* Funcion suma de matrices */
-slist* suma_matrix(slist* matrix, slist* matrix2);
-
 #endif // MATRIZ_H
