@@ -1,26 +1,80 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "matriz.h"
 
 int main(void)
 {
-    int n,m;
+    srand(time(NULL));
+    int n,m,x,elec;
+    slist* matriz1 = NULL;
+    slist* matriz_esc1 = NULL;
+    slist* matriz2 = NULL;
+    slist* matriz_esc2 = NULL;
 
-    printf("Ingrese cuantas filas tendra la matriz: ");
-    scanf("%d",&n);
-    printf("Ingrese cuantas columnas tendra la matriz: ");
+    /* Creacion de la matriz */
+    printf("Ingrese las dimensiones de la matriz que quiere crear\n");
+    printf("Columnas: ");
     scanf("%d",&m);
-    while (n < 1 || m < 1){
-        printf("\nNo se puede crear una matriz con menos de una fila y/o columna\n");
-        printf("Ingrese cuantas filas tendra la matriz: ");
-        scanf("%d",&n);
-        printf("Ingrese cuantas columnas tendra la matriz: ");
-        scanf("%d",&m);
-    }
-    slist* matriz = NULL;
-    matriz = new_matrix(matriz,n,m);
+    printf("Filas: ");
+    scanf("%d",&n);
+    
+    do{
+        printf("Como desea crear la matriz\n");
+        printf("(1) De forma manual\n");
+        printf("(2) De forma automatica con valores 0 y 1\n");
+        printf("Eleccion: ");
+        scanf("%d",&elec);
+        if (elec == 1)
+            matriz1 = new_matrix(matriz1,n,m);
+        else if(elec == 2)
+            matriz1 = new_matrix_auto(matriz1,n,m);
+    } while (elec < 1 || elec > 2);
 
-    print_matrix(matriz);
+    elec = 0;
+    do{
+        printf("Como quiere mostrar la matriz\n");
+        printf("(1) En forma cuadrada\n");
+        printf("(2) En forma de lista\n");
+        printf("Eleccion: ");
+        scanf("%d",&elec);
+        if (elec == 1)
+            print_matrix(matriz1);
+        else if (elec == 2)
+            print_list(matriz1);
+    } while (elec < 1 || elec > 2);
+    
+
+    /* Multiplicar la matriz por un escalar */
+    printf("Valor para multiplicar la matriz: ");
+    scanf("%d",&x);
+    matriz_esc1 = prod_esc(x,matriz1,matriz_esc1);
+
+    printf("\n");
+    print_matrix(matriz_esc1);
+
+    /* Buscar elementos en la matriz */
+    printf("\nNo se pueden buscar elementos en posiciones negativas\n");
+    printf("o que sean mayores que las filas y/o las columnas de la matriz\n");
+    printf("Ingrese la posicion x: ");
+    scanf("%d",&m);
+    printf("Ingrese la posicion y: ");
+    scanf("%d",&n);
+
+    printf("Se consiguio el valor %d en la posicion %dx%d\n",search(n,m,matriz1),m,n);
+
+    /* Asignar elementos en la matriz */
+    printf("\nNo se pueden asignar elementos en posiciones negativas,\n");
+    printf("que sean mayores que las filas y/o las columnas de la matriz\n");
+    printf("o que no contengan nada\n");
+    printf("Ingrese la posicion x: ");
+    scanf("%d",&m);
+    printf("Ingrese la posicion y: ");
+    scanf("%d",&n);
+    printf("Ingrese el valor que quiere asignar: ");
+    scanf("%d",&x);
+    set_value(n,m,x,matriz1);
+    print_matrix(matriz1);
 
     return 0;
 }
