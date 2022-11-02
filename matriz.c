@@ -259,6 +259,74 @@ void set_value(int i, int j, int x, slist* matrix)
         ptr->value = x;
     }
 }
+
+slist* suma_matrix(slist* matrix, slist* matrix2)
+{
+    register int X, Y = 0;
+    int value;
+    slist* sptr = matrix;
+    slist* sptr2 = matrix2;
+    slist* matrix3 = NULL;
+    matrix3 = add_end_row(matrix3,new_ptr_row(NULL,0,matrix->tam_y,matrix->tam_x));/*Creacion de la matriz resultante*/
+    slist* sptr3 = matrix3;/*Super lista(matriz)*/
+    while (Y < matrix->tam_y){
+        node* ptr = sptr->row;
+        node* ptr2 = sptr2->row;
+        X = 0;
+        while (X < matrix->tam_x && ptr != NULL || ptr2 != NULL){
+            /*Comprobar si alguna fila es nula, si es nula poner el valor de la que no sea nula*/
+            if(!ptr){
+                while (X < sptr2->tam_x){
+                    value=ptr2->value;
+                    ptr2 = ptr2->next;
+                    if (value != 0){
+                        sptr3->row = add_end_item(sptr3->row,new_item(value,X));/*Agrego un nuevo nodo a la fila*/
+                    }
+                    X++;
+                }
+            }else if(!ptr2){
+                while (X < sptr->tam_x){
+                    value=ptr->value;
+                    ptr = ptr->next;
+                    if (value != 0){
+                        sptr3->row = add_end_item(sptr3->row,new_item(value,X));
+                    }
+                    X++;
+                }
+            }else if(ptr->posicion_x==ptr2->posicion_x && X < ptr->posicion_x){
+                X++;
+            }else if(ptr->posicion_x==ptr2->posicion_x){
+                value=(ptr->value)+(ptr2->value);
+                ptr = ptr->next;
+                ptr2 = ptr2->next;
+                if (value != 0){
+                    sptr3->row = add_end_item(sptr3->row,new_item(value,X));
+                }
+                X++;
+            }else{
+                /*Si la posicion del primero es menor al segundo significa que el primero se sumara con 0*/
+                if(ptr->posicion_x<ptr2->posicion_x){
+                    value=ptr->value;
+                    ptr = ptr->next;
+                /*Si la posicion del segundo es menor al primero significa que el segundo se sumara con 0*/
+                }else{
+                    value=ptr2->value;
+                    ptr2 = ptr2->next;
+                }
+                if (value != 0){
+                    sptr3->row = add_end_item(sptr3->row,new_item(value,X));
+                }
+                X++;
+            }
+        }
+        matrix3 = add_end_row(matrix3,new_ptr_row(NULL,Y++,matrix->tam_y,matrix->tam_x));/*Agrego una nueva fila*/
+        sptr = sptr->next;
+        sptr2 = sptr2->next;
+        sptr3 = sptr3->next;
+    }
+    return matrix3;
+}
+
 /* EN DESARROLLLO */
 /* Funcion para transponer un matriz 
 slist* transpose(slist* matrix, slist* matrix_trans)
