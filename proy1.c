@@ -79,6 +79,8 @@ int main(void)
             scanf("%d",&x);
             set_value(n,m,x,matriz1);
             print_matrix(matriz1);
+
+        /*Producto por escalar*/
         }else if(elec == 3){
             printf("La matriz2 tiene que tener las mismas dimensiones que la matriz1\n");
             printf("Ingrese las dimensiones de la matriz2 que quiere crear\n");
@@ -86,7 +88,7 @@ int main(void)
             scanf("%d",&m);
             printf("Filas: ");
             scanf("%d",&n);
-            do{                
+            do{
                 printf("Como desea crear la matriz\n");
                 printf("(1) De forma manual\n");
                 printf("(2) De forma automatica con valores 0 y 1\n");
@@ -101,6 +103,8 @@ int main(void)
                 print_matrix(suma_matrix(matriz1, matriz2));
             else
                 printf("No se pueden sumar las matrices porque son de diferentes dimensiones");
+
+        /*Producto por escalar*/
         }else if(elec == 4){
             /* Multiplicar la matriz por un escalar */
             printf("Valor para multiplicar la matriz: ");
@@ -108,23 +112,41 @@ int main(void)
             matriz_esc1 = prod_esc(x,matriz1,matriz_esc1);
 
             printf("\n");
-            print_matrix(matriz_esc1);            
+            print_matrix(matriz_esc1);
+
+        /*Producto*/
         }else if(elec == 5){
-        
-        
-        
-        
-        
-        
+            printf("La matriz2 tiene que tener la cantidad de filas igual a la cantidad de columnas de la matriz1\n");
+            printf("Ingrese las dimensiones de la matriz2 que quiere crear\n");
+            printf("Columnas: ");
+            scanf("%d",&m);
+            printf("Filas: ");
+            scanf("%d",&n);
+            do{
+                printf("Como desea crear la matriz\n");
+                printf("(1) De forma manual\n");
+                printf("(2) De forma automatica con valores 0 y 1\n");
+                printf("Eleccion: ");
+                scanf("%d",&elec);
+                if (elec == 1)
+                    matriz2 = new_matrix(matriz2,n,m);
+                else if(elec == 2)
+                    matriz2 = new_matrix_auto(matriz2,n,m);
+            } while (elec < 1 || elec > 2);
+            if(matriz1->tam_x==matriz2->tam_y)
+                print_matrix(matriz2);
+            else
+                printf("No se pueden multiplicar las matrices porque la cantidad de filas de la matriz1 es diferente de la cantidad de columnas de la matriz2");
+
+        /*Transponer*/
         }else if(elec == 6){
-        
-        
-        
-        
-        
-            
+            print_matrix(matriz1);
+
+
+
+        /*Imprimir*/
         }else if(elec == 7){
-            print_matrix(matriz1);            
+            print_matrix(matriz1);
         }
     } while (elec < 1 || elec > 2 || elec > 3 || elec > 4 || elec > 5 || elec > 6 || elec > 7);
 }
