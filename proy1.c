@@ -63,7 +63,7 @@ int main(void)
 
     printf("Se consiguio el valor %d en la posicion %dx%d\n",search(n,m,matriz1),m,n);
 
-    /* Asignar elementos en la matriz */
+    /* Asignar elementos en la matriz1 */
     printf("\nNo se pueden asignar elementos en posiciones negativas,\n");
     printf("que sean mayores que las filas y/o las columnas de la matriz\n");
     printf("o que no contengan nada\n");
