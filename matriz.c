@@ -34,32 +34,6 @@ node* add_end_item(node* row, node* newp)
     return row;
 }
 
-/* Funcion que coloca un elemento nuevo en una posicion especifica de la fila */
-node* add_start_item(node* row, node* newp)
-{
-    if (!row)
-        return newp;
-    newp->next = row;
-    row = newp;
-    return row;
-}
-
-/* Funcion que coloca un elemento en una posicion especifica de la fila */
-node* add_pos_item(node* row, node* newp, int j)
-{
-    node* ptr = row;
-    int pos = 0;
-    while (ptr->next && pos < j-2){
-        if (pos < ptr->posicion_x)
-            pos++;
-        ptr = ptr->next;
-        pos++;
-    }
-    newp->next = ptr->next;
-    ptr->next = newp;
-    return row;
-}
-
 /* Funcion que coloca la fila recien creada al final de la columna de la matriz */
 slist* add_end_row(slist* matrix, slist* newr)
 {
@@ -180,10 +154,11 @@ void print_list(slist* matrix)
 }
 
 /* Multiplica todos los elementos de la matriz por un numero e */
-slist* prod_esc(int e, slist* matrix, slist* matrix_res)
+slist* prod_esc(int e, slist* matrix)
 {
     register int posY = 0, posX;
     /* Se crea una nueva matriz que tiene el mismo tamanio que la original */
+    slist* matrix_res = NULL;
     matrix_res = add_end_row(matrix_res,new_ptr_row(NULL,0,matrix->tam_y,matrix->tam_x));
     slist* sptr1 = matrix;
     slist* sptr2 = matrix_res;
@@ -201,7 +176,6 @@ slist* prod_esc(int e, slist* matrix, slist* matrix_res)
         sptr1 = sptr1->next;
         sptr2 = sptr2->next;
     }
-    
     return matrix_res;
 }
 
@@ -262,6 +236,13 @@ void set_value(int i, int j, int x, slist* matrix)
 
 slist* suma_matrix(slist* matrix, slist* matrix2)
 {
+    if (!matrix || !matrix2){
+        fprintf(stderr,"No se pueden sumar matrices si alguna es nula\n");
+        exit(1);
+    }
+    if (matrix->tam_x != matrix2->tam_x || matrix->tam_y != matrix2->tam_y){
+        fprintf(stderr,"No se pueden sumar matrices con distintas dimensiones\n");
+    }
     register int X, Y = 0;
     int value;
     slist* sptr = matrix;
@@ -327,24 +308,53 @@ slist* suma_matrix(slist* matrix, slist* matrix2)
     return matrix3;
 }
 
-/* EN DESARROLLLO */
-/* Funcion para transponer un matriz 
-slist* transpose(slist* matrix, slist* matrix_trans)
-{
-    register int posY = 0, posX;
-    register int i;
-    /* Se crea una nueva matriz que tiene el tamanio contrario a la original 
-    matrix_trans = add_end_row(matrix_trans,new_ptr_row(NULL,0,matrix->tam_x,matrix->tam_y));
-    /* Se crea un arreglo con punteros a cada fila de la matriz original de forma que sea mas rapido accader a cada elemento 
-    slist* sptr = matrix->row;
-    node* ptrs[matrix->tam_y];
-    for (i = 0; i < matrix->tam_y; i++){
-        ptrs[i] = sptr->row;
-        sptr = sptr->next;
+slist* transpose(slist* matrix){
+    slist* matrix_trans = add_end_row(matrix_trans,new_ptr_row(NULL,0,matrix->tam_x,matrix->tam_y));
+    slist* actual, *prev, *aux;
+    node* ptr;
+    register int X;
+    // Para cada fila de la matriz original
+    for (actual = matrix; actual; actual = actual->next)
+        // Para cada columna de esta fila
+        for (ptr = actual->row; ptr; ptr = ptr->next){
+            X = ptr->posicion_x;
+            // Se busca en la transpuesta la fila correspondiente a la posicion x de la columna
+            prev = NULL;
+            for (aux = matrix_trans; aux && aux->posicion_y <= X; aux = aux->next)
+                prev = aux;
+            // Si se consiguio la fila, quedara en prev
+            // Se inserta al final la columna correspondiente
+            if (prev && prev->posicion_y == X)
+                prev->row = add_end_item(prev->row,new_item(ptr->value,actual->posicion_y));
+            // En caso de no conseguirse, se crea entre prev y aux
+            else {
+                slist* sptr = new_ptr_row(NULL,X,matrix_trans->tam_y,matrix_trans->tam_x);
+                if (prev)
+                    prev->next = sptr;
+                else 
+                    matrix_trans = sptr;
+                sptr->next = aux;
+                sptr->row = add_end_item(sptr->row,new_item(ptr->value,actual->posicion_y));
+            }
+        }
+    return matrix_trans;
+
+}
+
+/* Funcion para multiplicar dos matrices */
+slist* mult_mat(slist* matrix1, slist* matrix2){
+    if (!matrix1 || !matrix2){
+        fprintf(stderr,"No se pueden multiplicar matrices si alguna es nula\n");
+        exit(1);
     }
-    slist* sptr2 = matrix_trans;
-    while (posY < matrix_trans->tam_y){
-        posX = 0;
+    if (matrix1->tam_x != matrix2->tam_y){
+        fprintf(stderr,"El tamanio de x en la primera matriz debe ser igual al tamanio en y de la segunda matriz\n");
+        exit(1);
     }
-} 
-/* EN DESARROLLO */
+    // Usamos la transpuesta de la matriz 2 para tener acceso mas rapido por filas
+    slist* matriz2_trans = transpose(matrix2);
+
+    slist* mult_matrix = add_end_row(mult_matrix,new_ptr_row(NULL,0,matrix1->tam_y,matrix2->tam_x));
+    node* ptr1, *ptr2, *ptr_prod = mult_matrix->row;
+
+}

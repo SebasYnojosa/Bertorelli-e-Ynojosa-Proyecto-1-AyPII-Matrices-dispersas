@@ -24,9 +24,6 @@ slist* new_ptr_row(node* row, int posY, int n, int m);
 /* Funcion que coloca el elemento recien creado al final de la lista */
 node* add_end_item(node* row, node* newp);
 
-/* Funcion que coloca un elemento nuevo en una posicion especifica de la fila */
-node* add_start_item(node* row, node* newp);
-
 /* Funcion que coloca un elemento en una posicion especifica de la fila */
 node* add_pos_item(node* row, node* newp, int j);
 
@@ -46,7 +43,7 @@ void print_matrix(slist* matrix);
 void print_list(slist* matrix);
 
 /* Multiplica todos los elementos de la matriz por un numero e */
-slist* prod_esc(int e, slist* matrix, slist* matrix_res);
+slist* prod_esc(int e, slist* matrix);
 
 /* Busca el elemento de la matriz que esta en la fila i y la columna j */
 int search(int i, int j, slist* matrix);
@@ -55,9 +52,6 @@ int search(int i, int j, slist* matrix);
 void set_value(int i, int j, int x, slist* matrix);
 
 /* Funcion para transponer un matriz */
-void transpose(slist* matrix, slist* matrix_trans);
-
-/* Funcion para sumar matrices */
-slist* suma_matrix(slist* matrix, slist* matrix2);
+slist* transpose(slist* matrix);
 
 #endif // MATRIZ_H
