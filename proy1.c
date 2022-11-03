@@ -30,35 +30,112 @@ int main(void)
             matriz1 = new_matrix_auto(matriz1,n,m);
         printf("\r");
     } while (elec < 1 || elec > 2);
-
-    elec = 0;
+    
+    
+    /* Incio Menu */ 
+    elec=0;
     do{
-        printf("Como quiere mostrar la matriz\n");
-        printf("(1) En forma cuadrada\n");
-        printf("(2) En forma de lista\n");
+        printf("Que operacion desea hacer\n");
+        printf("(1) Obtener elemento de la matriz\n");
+        printf("(2) Asignar un elemento a la matriz\n");
+        printf("(3) Sumar\n");
+        printf("(4) Producto por escalar\n");
+        printf("(5) Producto\n");
+        printf("(6) Transponer\n");
+        printf("(7) Imprimir\n");
         printf("Eleccion: ");
         scanf("%d",&elec);
-        if (elec == 1)
+        if (elec == 1){
+            /* Buscar elementos en la matriz */
+            printf("\nNo se pueden buscar elementos en posiciones negativas\n");
+            printf("o que sean mayores que las filas y/o las columnas de la matriz\n");
+            printf("Ingrese la posicion x: ");
+            scanf("%d",&m);
+            printf("Ingrese la posicion y: ");
+            scanf("%d",&n);
+            printf("Se consiguio el valor %d en la posicion %dx%d\n",search(n,m,matriz1),m,n);
+        }else if(elec == 2){
+            /* Asignar elementos en la matriz */
+            printf("\nNo se pueden asignar elementos en posiciones negativas,\n");
+            printf("que sean mayores que las filas y/o las columnas de la matriz\n");
+            printf("o que no contengan nada\n");
+            printf("Ingrese la posicion x: ");
+            scanf("%d",&m);
+            printf("Ingrese la posicion y: ");
+            scanf("%d",&n);
+            printf("Ingrese el valor que quiere asignar: ");
+            scanf("%d",&x);
+            set_value(n,m,x,matriz1);
             print_matrix(matriz1);
-        else if (elec == 2)
-            print_list(matriz1);
-        printf("\r");
-    } while (elec < 1 || elec > 2);
 
-    /* Multiplicar una matriz */
-    printf("Valor para multiplicar la matriz: ");
-    scanf("%d",&x);
-    slist* matriz_esc1 = prod_esc(x,matriz1);
+        /*Producto por escalar*/
+        }else if(elec == 3){
+            printf("La matriz2 tiene que tener las mismas dimensiones que la matriz1\n");
+            printf("Ingrese las dimensiones de la matriz2 que quiere crear\n");
+            printf("Columnas: ");
+            scanf("%d",&m);
+            printf("Filas: ");
+            scanf("%d",&n);
+            do{
+                printf("Como desea crear la matriz\n");
+                printf("(1) De forma manual\n");
+                printf("(2) De forma automatica con valores 0 y 1\n");
+                printf("Eleccion: ");
+                scanf("%d",&elec);
+                if (elec == 1)
+                    matriz2 = new_matrix(matriz2,n,m);
+                else if(elec == 2)
+                    matriz2 = new_matrix_auto(matriz2,n,m);
+            } while (elec < 1 || elec > 2);
+            if(matriz1->tam_x==matriz2->tam_x && matriz1->tam_y==matriz2->tam_y)
+                print_matrix(suma_matrix(matriz1, matriz2));
+            else
+                printf("No se pueden sumar las matrices porque son de diferentes dimensiones");
 
-    printf("\n");
-    print_matrix(matriz_esc1);
+        /*Producto por escalar*/
+        }else if(elec == 4){
+            /* Multiplicar la matriz por un escalar */
+            printf("Valor para multiplicar la matriz: ");
+            scanf("%d",&x);
+            matriz_esc1 = prod_esc(x,matriz1,matriz_esc1);
 
-    /* Transponer la matriz */
-    slist* matriz_trans = transpose(matriz1);
+            printf("\n");
+            print_matrix(matriz_esc1);
 
-    printf("\n");
-    print_matrix(matriz_trans);
+        /*Producto*/
+        }else if(elec == 5){
+            printf("La matriz2 tiene que tener la cantidad de filas igual a la cantidad de columnas de la matriz1\n");
+            printf("Ingrese las dimensiones de la matriz2 que quiere crear\n");
+            printf("Columnas: ");
+            scanf("%d",&m);
+            printf("Filas: ");
+            scanf("%d",&n);
+            do{
+                printf("Como desea crear la matriz\n");
+                printf("(1) De forma manual\n");
+                printf("(2) De forma automatica con valores 0 y 1\n");
+                printf("Eleccion: ");
+                scanf("%d",&elec);
+                if (elec == 1)
+                    matriz2 = new_matrix(matriz2,n,m);
+                else if(elec == 2)
+                    matriz2 = new_matrix_auto(matriz2,n,m);
+            } while (elec < 1 || elec > 2);
+            if(matriz1->tam_x==matriz2->tam_y)
+                print_matrix(matriz2);
+            else
+                printf("No se pueden multiplicar las matrices porque la cantidad de filas de la matriz1 es diferente de la cantidad de columnas de la matriz2");
 
+        /*Transponer*/
+        }else if(elec == 6){
+            print_matrix(matriz1);
+
+        /*Imprimir*/
+        }else if(elec == 7){
+            print_matrix(matriz1);
+        }
+    } while (elec < 1 || elec > 2 || elec > 3 || elec > 4 || elec > 5 || elec > 6 || elec > 7);
+    /* Fin Menu */ 
    
 
     return 0;
