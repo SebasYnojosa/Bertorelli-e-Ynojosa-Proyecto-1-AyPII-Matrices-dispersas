@@ -10,31 +10,10 @@ int main(void)
     slist* matriz1 = NULL;
     slist* matriz2 = NULL;
     slist* matriz_esc2 = NULL;
-
-    /* Creacion de la matriz */
-    printf("Ingrese las dimensiones de la matriz que quiere crear\n");
-    printf("Columnas: ");
-    scanf("%d",&m);
-    printf("Filas: ");
-    scanf("%d",&n);
-    
-    do{
-        printf("Como desea crear la matriz\n");
-        printf("(1) De forma manual\n");
-        printf("(2) De forma automatica con valores 0 y 1\n");
-        printf("Eleccion: ");
-        scanf("%d",&elec);
-        if (elec == 1)
-            matriz1 = new_matrix(matriz1,n,m);
-        else if(elec == 2)
-            matriz1 = new_matrix_auto(matriz1,n,m);
-        printf("\r");
-    } while (elec < 1 || elec > 2);
-    
-    
-    /* Incio Menu */ 
+    /* INICIO MENU */
     elec=0;
     do{
+        printf("\n    MENU PROYECTO\n\n");
         printf("Que operacion desea hacer\n");
         printf("(1) Obtener elemento de la matriz\n");
         printf("(2) Asignar un elemento a la matriz\n");
@@ -45,6 +24,24 @@ int main(void)
         printf("(7) Imprimir\n");
         printf("Eleccion: ");
         scanf("%d",&elec);
+        /* Creacion de la matriz */
+        printf("Ingrese las dimensiones de la matriz que quiere crear\n");
+        printf("Columnas: ");
+        scanf("%d",&m);
+        printf("Filas: ");
+        scanf("%d",&n);
+        do{
+            printf("Como desea crear la matriz\n");
+            printf("(1) De forma manual\n");
+            printf("(2) De forma automatica con valores 0 y 1\n");
+            printf("Eleccion: ");
+            scanf("%d",&elec2);
+            if (elec2 == 1)
+                matriz1 = new_matrix(matriz1,n,m);
+            else if(elec2 == 2)
+                matriz1 = new_matrix_auto(matriz1,n,m);
+        } while (elec2 < 1 || elec2 > 2);
+
         if (elec == 1){
             /* Buscar elementos en la matriz */
             printf("\nNo se pueden buscar elementos en posiciones negativas\n");
@@ -130,12 +127,14 @@ int main(void)
         }else if(elec == 6){
             print_matrix(matriz1);
 
+
+
         /*Imprimir*/
         }else if(elec == 7){
             print_matrix(matriz1);
         }
-    } while (elec < 1 || elec > 2 || elec > 3 || elec > 4 || elec > 5 || elec > 6 || elec > 7);
-    /* Fin Menu */ 
+    } while (elec < 1 || elec > 7);
+    /* FIN MENU */
    
 
     return 0;
