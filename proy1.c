@@ -22,7 +22,7 @@ int main(void)
         printf("(5) Producto\n");
         printf("(6) Transponer\n");
         printf("(7) Imprimir\n");
-        printf("Eleccion: ");
+        printf("Opcion? ");
         scanf("%d",&elec);
         /* Creacion de la matriz */
         printf("Ingrese las dimensiones de la matriz que quiere crear\n");
