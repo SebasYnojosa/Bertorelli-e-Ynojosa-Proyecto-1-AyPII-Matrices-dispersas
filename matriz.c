@@ -309,36 +309,30 @@ slist* suma_matrix(slist* matrix, slist* matrix2)
 }
 
 slist* transpose(slist* matrix){
-    slist* matrix_trans = add_end_row(matrix_trans,new_ptr_row(NULL,0,matrix->tam_x,matrix->tam_y));
-    slist* actual, *prev, *aux;
+    slist* matrix_trans=NULL;
+    slist* f1, *prev_trans, *cur_trans;
     node* ptr;
-    register int X;
-    // Para cada fila de la matriz original
-    for (actual = matrix; actual; actual = actual->next)
-        // Para cada columna de esta fila
-        for (ptr = actual->row; ptr; ptr = ptr->next){
-            X = ptr->posicion_x;
-            // Se busca en la transpuesta la fila correspondiente a la posicion x de la columna
-            prev = NULL;
-            for (aux = matrix_trans; aux && aux->posicion_y <= X; aux = aux->next)
-                prev = aux;
-            // Si se consiguio la fila, quedara en prev
-            // Se inserta al final la columna correspondiente
-            if (prev && prev->posicion_y == X)
-                prev->row = add_end_item(prev->row,new_item(ptr->value,actual->posicion_y));
-            // En caso de no conseguirse, se crea entre prev y aux
+
+    for (f1 = matrix; f1; f1 = f1->next)
+        for (ptr = f1->row; ptr; ptr = ptr->next){
+            prev_trans = NULL;
+            for (cur_trans = matrix_trans; cur_trans!=NULL && cur_trans->posicion_y <= ptr->posicion_x; prev_trans = cur_trans, cur_trans = cur_trans->next);
+
+            if (prev_trans != NULL && prev_trans->posicion_y == ptr->posicion_x)
+                prev_trans->row = add_end_item(prev_trans->row,new_item(ptr->value,f1->posicion_y));
             else {
-                slist* sptr = new_ptr_row(NULL,X,matrix_trans->tam_y,matrix_trans->tam_x);
-                if (prev)
-                    prev->next = sptr;
-                else 
+                slist* sptr = new_ptr_row(NULL,ptr->posicion_x,matrix->tam_x,matrix->tam_y);
+                if (prev_trans!=NULL){
+                    prev_trans->next = sptr;
+                }
+                else{
                     matrix_trans = sptr;
-                sptr->next = aux;
-                sptr->row = add_end_item(sptr->row,new_item(ptr->value,actual->posicion_y));
+                }
+                sptr->next = cur_trans;
+                sptr->row = add_end_item(sptr->row,new_item(ptr->value,f1->posicion_y));
             }
         }
     return matrix_trans;
-
 }
 
 /* Funcion para multiplicar dos matrices */
