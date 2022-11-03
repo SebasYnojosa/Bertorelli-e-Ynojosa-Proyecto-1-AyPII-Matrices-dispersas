@@ -54,4 +54,7 @@ void set_value(int i, int j, int x, slist* matrix);
 /* Funcion para transponer un matriz */
 slist* transpose(slist* matrix);
 
+/* Funcion para multiplicar dos matrices */
+slist* mult_mat(slist* matrix1, slist* matrix2);
+
 #endif // MATRIZ_H

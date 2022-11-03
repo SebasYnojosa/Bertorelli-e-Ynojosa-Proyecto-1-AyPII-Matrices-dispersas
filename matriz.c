@@ -355,6 +355,36 @@ slist* mult_mat(slist* matrix1, slist* matrix2){
     slist* matriz2_trans = transpose(matrix2);
 
     slist* mult_matrix = add_end_row(mult_matrix,new_ptr_row(NULL,0,matrix1->tam_y,matrix2->tam_x));
-    node* ptr1, *ptr2, *ptr_prod = mult_matrix->row;
-
+    slist* sptr1, *sptr2, *sptr_prod = mult_matrix;
+    node* ptr1, *ptr2;
+    register int prod;
+    // Para cada fila en la matriz1 
+    for (sptr1 = matrix1; sptr1; sptr1 = sptr1->next){
+        if (!sptr_prod->row)
+            sptr_prod->posicion_y = sptr1->posicion_y;
+        else {
+            sptr_prod = add_end_row(sptr_prod,new_ptr_row(NULL,sptr1->posicion_y,matrix1->tam_y,matrix2->tam_x));
+            sptr_prod = sptr_prod->next;
+        }
+        // Para cada fila en la matriz2 
+        for (sptr2 = matriz2_trans; sptr2; sptr2 = sptr2->next){
+            ptr1 = sptr1->row;
+            ptr2 = sptr2->row;
+            prod = 0;
+            while (ptr1 && ptr2){
+                if (ptr1->posicion_x < ptr2->posicion_x)
+                    ptr1 = ptr1->next;
+                else if (ptr1->posicion_x > ptr2->posicion_x)
+                    ptr2 = ptr2->next;
+                else {
+                    prod += ptr2->value * ptr1->value;
+                    ptr1 = ptr1->next;
+                    ptr2 = ptr2->next;
+                }
+            }   
+            if (prod != 0)
+                sptr_prod->row = add_end_item(sptr_prod->row,new_item(prod,sptr2->posicion_y));
+        }
+    }
+    return mult_matrix;
 }
